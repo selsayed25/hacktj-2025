@@ -74,14 +74,14 @@ thanlks. -->
       <div class="inputlayout">
         <div class="containerin">
           <object
-            data="{{ data["pdf"] }}#toolbar=0&navpanes=0"
+            data="/static/output/{{ data["pdf"] }}#toolbar=0&navpanes=0"
             type="application/pdf"
             width="100%"
             height="100%"
           >
             <p>
               Your browser does not support PDFs
-              <a href="{{ data["pdf"] }}">Download the PDF</a>
+              <a href="/static/output/{{ data["pdf"] }}">Download the PDF</a>
               .
             </p>
           </object>
@@ -97,7 +97,7 @@ thanlks. -->
         </div>
         <div class="containeraudio">
           <audio id="audio">
-            <source src='{{ data["audio"] }}' type="audio/mpeg">
+            <source src='/static/output/{{ data["audio"] }}' type="audio/mpeg">
           </audio>
           <div class="iconbox">
             <img onclick="goback()" src="/static/img/skip_previous.svg" alt="back" id="goback" class="icon"/>
@@ -112,7 +112,7 @@ thanlks. -->
             <input type="range" value="0" id="progress">
           </div>
           <div class="iconbox">
-            <img onclick="download()" src="/static/img/download.svg" alt="Download" id="download" class="lilicon" href='{{ data["audio"] }}' download/>
+            <img onclick="download()" src="/static/img/download.svg" alt="Download" id="download" class="lilicon" href='/static/output/{{ data["audio"] }}' download/>
           </div>      
         </div>
       </div>
@@ -130,6 +130,8 @@ thanlks. -->
       var spedup = false;
       
       song.onloadedmetadata = function(){
+        console.log("/static/output/{{ data["audio"] }}");
+        console.log("/static/output/{{ data["pdf"] }}");
         progress.max = song.duration;
         progress.value = song.currentTime;
       }
@@ -173,7 +175,7 @@ thanlks. -->
         element.setAttribute('href',
             'data:text/plain;charset=utf-8, '
             + encodeURIComponent('ReadDF Audio'));
-        element.setAttribute('download', '{{ data["audio"] }}');
+        element.setAttribute('download', '/static/output/{{ data["audio"] }}');
         document.body.appendChild(element);
         element.click();
         document.body.removeChild(element);
