@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversion Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .text-content {
+            white-space: pre-line;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .audio-player {
+            margin: 20px 0;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        a.button:hover {
+            background-color: #45a049;
+        }
+        .no-audio {
+            color: #e74c3c;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Conversion Result</h1>
+    
+    <div class="container">
+        <h2>Extracted Text:</h2>
+        <div class="text-content">{{ text }}</div>
+        
+        <h2>Audio Output:</h2>
+        {% if has_audio %}
+        <div class="audio-player">
+            <audio controls>
+                <source src="{{ audio_file }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <a href="{{ audio_file }}" download class="button">Download Audio</a>
+        {% else %}
+        <p class="no-audio">No audio was generated because no text could be extracted.</p>
+        {% endif %}
+        
+        <a href="{{ url_for('index') }}" class="button">Convert Another File</a>
+    </div>
+</body>
+</html>
