@@ -68,7 +68,7 @@ def convert():
             # Save uploaded file
             temp_path = os.path.join(UPLOAD_FOLDER, f"{unique_id}.{file_extension}")
             filename=f"{unique_id}.{file_extension}"
-            perma_path=os.path.join(".",f"{unique_id}.{file_extension}")
+            perma_path=os.path.join("./static/output",f"{unique_id}.{file_extension}")
             file.save(temp_path)
             file.save(perma_path)
 
@@ -123,9 +123,12 @@ def convert():
             # "pdf": "<filename>.pdf",
             # "audio": "<filename>.mp3"
             # }
+            
+            print(data)
+            print(jsonify(data))
 
             # Provide result to user
-            return render_template('homepage.html', data = jsonify(data))
+            return render_template('homepage.html', data = data)
         
         except Exception as e:
             logger.exception("Error in conversion process")
