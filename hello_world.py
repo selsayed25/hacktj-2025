@@ -13,6 +13,11 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/file' , methods=['POST'])
+def getfile():
+    uploadedfile = request.form.get('uploadedfile')
+    return uploadedfile
+
 @app.route('/convert', methods=['POST'])
 def convert():
     if 'file' not in request.files:
