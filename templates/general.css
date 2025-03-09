@@ -85,8 +85,10 @@ body{
 
 .outputlayout {
   grid-area: 2 / 2 / 3 / 3; 
-  height: 70vh;
+  height: 80vh;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .scrollbox {
@@ -252,6 +254,106 @@ main p{
   margin-right: 10px;
   margin-left: 10px;
   h2, p { margin-top: 1em }
+}
+
+.containeraudio{
+  border: 2px solid var(--line-clr);
+  border-radius: 1em;
+  height: 7.5vh;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.containerout{
+  border: 2px solid var(--line-clr);
+  border-radius: 1em;
+  flex-grow: 1;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+  h2, p { margin: 1em }
+}
+
+.containerfiles{
+  border: 2px solid var(--line-clr);
+  border-radius: 1em;
+  height: 100%;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h2, p { margin: 1em }
+}
+
+.scrollbarbox {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  height: 100%;
+  cursor: pointer;
+}
+
+.lilicon {
+  height: 75%;
+  cursor: pointer;
+}
+
+.uploadicon {
+  height: 8vh;
+  margin-bottom: 10px;
+}
+
+label {
+  background-color: #414141;
+  color: #fafaff;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+label:hover {
+  background-color: #124d4d;
+  transition: 0.3s;
+}
+
+#progress{
+  -webkit-appearance: none;
+  width: 90%;
+  height: 6px;
+  background: #30cfd0;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 40px 0;
+  cursor: pointer;
+}
+
+#progress::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  background: #30cfd0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 8px solid #fff; 
+  box-shadow: 0 5px 5px rgba(24, 160, 185, 0.22);
+  cursor: pointer;
 }
 
 @media(max-width: 800px){

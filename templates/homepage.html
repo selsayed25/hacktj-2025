@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 
-<!-- Sends a POST request on file submission that goes to route 'file' -->
+<!-- As a template, send a JSON object called 'data' with the following structure:
+
+{
+  "transcription": "<full text of the transcription>",
+  "pdf": "<filename>.pdf",
+  "audio": "<filename>.mp3"
+}
+
+thanlks. -->
 
 <html lang="en">
 <head>
@@ -64,14 +72,19 @@
       </div>
       
       <div class="inputlayout">
-        <div class="containerfiles">
-          <img src="upload.svg" alt="Upload" id="upload" class="uploadicon"/>
-          <div class="filebox">
-            <form action="file" method="POST">
-              <input type="file" onchange="form.submit()" id="actual-btn" accept=".pdf, .jpeg, .png" hidden />
-              <label for="actual-btn">Choose File</label>
-            </form>
-          </div>
+        <div class="containerin">
+          <object
+            data="{{ data["pdf"] }}#toolbar=0&navpanes=0"
+            type="application/pdf"
+            width="100%"
+            height="100%"
+          >
+            <p>
+              Your browser does not support PDFs
+              <a href="{{ data["pdf"] }}">Download the PDF</a>
+              .
+            </p>
+          </object>
         </div>
       </div>
       
@@ -79,28 +92,113 @@
         <div class="containerout">
           <h2>Transcription</h2>
           <div class="scrollbox" id="scrollbox">
-            <p id="output">Upload a file to Transcribe! Transcription will appear here and Audio controls are below</p>
+            <p>{{ data["transcription"] }}</p>
           </div>
         </div>
         <div class="containeraudio">
+          <audio id="audio">
+            <source src='{{ data["audio"] }}' type="audio/mpeg">
+          </audio>
           <div class="iconbox">
-            <img src="skip_previous.svg" alt="back" id="goback" class="icon"/>
+            <img onclick="goback()" src="skip_previous.svg" alt="back" id="goback" class="icon"/>
           </div>
           <div class="iconbox">
-            <img src="play_arrow.svg" alt="Play/Pause" id="play" class="icon"/>
+            <img onclick="playpause()" src="play_arrow.svg" alt="Play/Pause" id="play" class="icon"/>
           </div>
           <div class="iconbox">
-            <img src="1x_speed.svg" alt="Speed" id="speed" class="lilicon"/>
+            <img onclick="speedup()" src="1x_speed.svg" alt="Speed" id="speed" class="lilicon"/>
           </div>
           <div class="scrollbarbox">
             <input type="range" value="0" id="progress">
           </div>
           <div class="iconbox">
-            <img src="download.svg" alt="Download" id="download" class="lilicon" href="test.mp3" download/>
+            <img onclick="download()" src="download.svg" alt="Download" id="download" class="lilicon" href='{{ data["audio"] }}' download/>
           </div>      
         </div>
       </div>
+
     </div>
+
+    <script>
+
+      let progress = document.getElementById("progress");
+      let song = document.getElementById("audio");
+      let ctrlIcon = document.getElementById("play");
+      let speed = document.getElementById("speed");
+      let back = document.getElementById("back");
+      var paused = true;
+      var spedup = false;
+      
+      song.onloadedmetadata = function(){
+        progress.max = song.duration;
+        progress.value = song.currentTime;
+      }
+  
+      function playpause(){
+        if(paused == false){
+          song.pause();
+          paused = true;
+          ctrlIcon.setAttribute('src', 'play_arrow.svg');
+        }
+        else{
+          song.play();
+          paused = false;
+          ctrlIcon.setAttribute('src', 'pause.svg');
+        }
+      }
+
+      function speedup(){
+        if(spedup == false){
+          song.playbackRate = 2.0;
+          spedup = true;
+          speed.setAttribute('src', '2x_speed.svg');
+        }
+        else{
+          song.playbackRate = 1.0;
+          spedup = false;
+          speed.setAttribute('src', '1x_speed.svg');
+        }
+      }
+
+      function goback(){
+        song.currentTime = 0;
+        progress.value = 0;
+        song.pause();
+        paused = true;
+        ctrlIcon.setAttribute('src', 'play_arrow.svg');
+      }
+
+      function download() {
+        let element = document.createElement('a');
+        element.setAttribute('href',
+            'data:text/plain;charset=utf-8, '
+            + encodeURIComponent('ReadDF Audio'));
+        element.setAttribute('download', '{{ data["audio"] }}');
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      }
+
+      song.ontimeupdate = function(){
+        if(spedup == false){
+          progress.value = song.currentTime;
+        }
+        else{
+          progress.value = song.currentTime * 2;
+        }
+      }
+
+      progress.onchange = function () {
+        if(spedup == false){ 
+          song.currentTime = progress.value;
+        }
+        else{
+          song.currentTime = progress.value / 2;
+        }
+      }
+  
+    </script>
+
   </main>
 </body>
 </html>
