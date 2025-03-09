@@ -15,9 +15,9 @@ thanlks. -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ReadDF</title>
-  <link rel="icon" type="image/x-icon" href="file-solid-blue.svg">
-  <link rel="stylesheet" href="general.css">
-  <script type="text/javascript" src="app.js" defer></script>
+  <link rel="icon" type="image/x-icon" href="/static/img/file-solid-blue.svg">
+  <link rel="stylesheet" href="/static/css/general.css">
+  <script type="text/javascript" src="/static/js/app.js" defer></script>
 </head>
 <body>
   <nav id="sidebar">
@@ -63,7 +63,7 @@ thanlks. -->
       <div class="titlebarlayout">
         <div class="container titlebar">
           <div class="logobox">
-            <img src="file-solid-blue.svg" alt="logo" class="logo"/>
+            <img src="/static/img/file-solid-blue.svg" alt="logo" class="logo"/>
           </div>
           <div class="titlebox">
               <h1 class="title">ReadDF</h1>
@@ -100,19 +100,19 @@ thanlks. -->
             <source src='{{ data["audio"] }}' type="audio/mpeg">
           </audio>
           <div class="iconbox">
-            <img onclick="goback()" src="skip_previous.svg" alt="back" id="goback" class="icon"/>
+            <img onclick="goback()" src="/static/img/skip_previous.svg" alt="back" id="goback" class="icon"/>
           </div>
           <div class="iconbox">
-            <img onclick="playpause()" src="play_arrow.svg" alt="Play/Pause" id="play" class="icon"/>
+            <img onclick="playpause()" src="/static/img/play_arrow.svg" alt="Play/Pause" id="play" class="icon"/>
           </div>
           <div class="iconbox">
-            <img onclick="speedup()" src="1x_speed.svg" alt="Speed" id="speed" class="lilicon"/>
+            <img onclick="speedup()" src="/static/img/1x_speed.svg" alt="Speed" id="speed" class="lilicon"/>
           </div>
           <div class="scrollbarbox">
             <input type="range" value="0" id="progress">
           </div>
           <div class="iconbox">
-            <img onclick="download()" src="download.svg" alt="Download" id="download" class="lilicon" href='{{ data["audio"] }}' download/>
+            <img onclick="download()" src="/static/img/download.svg" alt="Download" id="download" class="lilicon" href='{{ data["audio"] }}' download/>
           </div>      
         </div>
       </div>
@@ -138,12 +138,12 @@ thanlks. -->
         if(paused == false){
           song.pause();
           paused = true;
-          ctrlIcon.setAttribute('src', 'play_arrow.svg');
+          ctrlIcon.setAttribute('src', '/static/img/play_arrow.svg');
         }
         else{
           song.play();
           paused = false;
-          ctrlIcon.setAttribute('src', 'pause.svg');
+          ctrlIcon.setAttribute('src', '/static/img/pause.svg');
         }
       }
 
@@ -151,12 +151,12 @@ thanlks. -->
         if(spedup == false){
           song.playbackRate = 2.0;
           spedup = true;
-          speed.setAttribute('src', '2x_speed.svg');
+          speed.setAttribute('src', '/static/img/2x_speed.svg');
         }
         else{
           song.playbackRate = 1.0;
           spedup = false;
-          speed.setAttribute('src', '1x_speed.svg');
+          speed.setAttribute('src', '/static/img/1x_speed.svg');
         }
       }
 
@@ -165,7 +165,7 @@ thanlks. -->
         progress.value = 0;
         song.pause();
         paused = true;
-        ctrlIcon.setAttribute('src', 'play_arrow.svg');
+        ctrlIcon.setAttribute('src', '/static/img/play_arrow.svg');
       }
 
       function download() {
