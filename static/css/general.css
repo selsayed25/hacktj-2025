@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: OfficeCodePro;
-  src: url(OfficeCodePro-Light.otf);
+  src: url(/static/fonts/OfficeCodePro-Light.otf);
 }
 
 html{

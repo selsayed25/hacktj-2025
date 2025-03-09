@@ -7,9 +7,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ReadDF</title>
-  <link rel="icon" type="image/x-icon" href="file-solid-blue.svg">
-  <link rel="stylesheet" href="general.css">
-  <script type="text/javascript" src="app.js" defer></script>
+  <link rel="icon" type="image/x-icon" href="/static/img/file-solid-blue.svg">
+  <link rel="stylesheet" href="/static/css/general.css">
+  <script type="text/javascript" src="/static/js/app.js" defer></script>
 </head>
 <body>
   <nav id="sidebar">
@@ -55,7 +55,7 @@
       <div class="titlebarlayout">
         <div class="container titlebar">
           <div class="logobox">
-            <img src="file-solid-blue.svg" alt="logo" class="logo"/>
+            <img src="/static/img/file-solid-blue.svg" alt="logo" class="logo"/>
           </div>
           <div class="titlebox">
               <h1 class="title">ReadDF</h1>
@@ -65,7 +65,7 @@
       
       <div class="inputlayout">
         <div class="containerfiles">
-          <img src="upload.svg" alt="Upload" id="upload" class="uploadicon"/>
+          <img src="/static/img/upload.svg" alt="Upload" id="upload" class="uploadicon"/>
           <div class="filebox">
             <form action="file" method="POST">
               <input type="file" onchange="form.submit()" id="actual-btn" accept=".pdf, .jpeg, .png" hidden />
@@ -84,19 +84,19 @@
         </div>
         <div class="containeraudio">
           <div class="iconbox">
-            <img src="skip_previous.svg" alt="back" id="goback" class="icon"/>
+            <img src="/static/img/skip_previous.svg" alt="back" id="goback" class="icon"/>
           </div>
           <div class="iconbox">
-            <img src="play_arrow.svg" alt="Play/Pause" id="play" class="icon"/>
+            <img src="/static/img/play_arrow.svg" alt="Play/Pause" id="play" class="icon"/>
           </div>
           <div class="iconbox">
-            <img src="1x_speed.svg" alt="Speed" id="speed" class="lilicon"/>
+            <img src="/static/img/1x_speed.svg" alt="Speed" id="speed" class="lilicon"/>
           </div>
           <div class="scrollbarbox">
             <input type="range" value="0" id="progress">
           </div>
           <div class="iconbox">
-            <img src="download.svg" alt="Download" id="download" class="lilicon" href="test.mp3" download/>
+            <img src="/static/img/download.svg" alt="Download" id="download" class="lilicon" href="test.mp3" download/>
           </div>      
         </div>
       </div>
