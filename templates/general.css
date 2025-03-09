@@ -85,14 +85,14 @@ body{
 
 .outputlayout {
   grid-area: 2 / 2 / 3 / 3; 
-  height: 80vh;
+  height: 70vh;
   width: 100%;
 }
 
 .scrollbox {
   overflow: scroll;
   max-width: 100%;
-  height: 72vh;
+  height: 62vh;
   overflow-x: hidden;
 
   /* Hide scrollbar for IE, Edge and Firefox */
