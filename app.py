@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, flash
 from werkzeug.utils import secure_filename
 import os
 import uuid
@@ -8,10 +8,30 @@ import logging
 from ocr import *
 
 app = Flask(__name__)
+app.config["UPLOAD_FOLDER"] = "./templates/uploads"
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/file', methods=['POST'])
+def upload_file():
+    if 'file' in request.files:
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # Here you should save the file
+            # file.save(path_to_save_file)
+            convert()
+            return 'File uploaded successfully'
+
+    return 'File upload failed'
 
 @app.route('/convert', methods=['POST'])
 def convert():

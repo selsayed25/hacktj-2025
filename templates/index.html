@@ -67,8 +67,8 @@
         <div class="containerfiles">
           <img src="/static/img/upload.svg" alt="Upload" id="upload" class="uploadicon"/>
           <div class="filebox">
-            <form action="file" method="POST">
-              <input type="file" onchange="form.submit()" id="actual-btn" accept=".pdf, .jpeg, .png" hidden />
+            <form action="file" method="POST" enctype = "multipart/form-data">
+              <input type="file" name="file" onchange="form.submit()" id="actual-btn" accept=".pdf, .jpeg, .png" hidden />
               <label for="actual-btn">Choose File</label>
             </form>
           </div>
