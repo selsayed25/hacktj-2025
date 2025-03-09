@@ -356,35 +356,24 @@ label:hover {
   cursor: pointer;
 }
 
-/* HTML: <div class="loader"></div> */
 .loader {
-  width: 100px;
+  display: block;
+  width: 45px;
   aspect-ratio: 1;
-  padding: 10px;
-  box-sizing: border-box;
-  display: grid;
-  background: #141414;
-  filter: blur(5px) contrast(10) hue-rotate(300deg);
-  mix-blend-mode: darken;
+  --c: no-repeat linear-gradient(#fff 0 0);
+  background: 
+    var(--c) 0%   50%,
+    var(--c) 50%  50%,
+    var(--c) 100% 50%;
+  background-size: 20% 100%;
+  animation: l1 1s infinite linear;
 }
-.loader:before,
-.loader:after{ 
-  content: "";
-  grid-area: 1/1; 
-  width: 40px;
-  height: 40px;
-  background: #30cfd0;
-  animation: l7 2s infinite;
-}
-.loader:after{ 
-  animation-delay: -1s;
-}
-@keyframes l7{
-  0%   {transform: translate(   0,0)}
-  25%  {transform: translate(100%,0)}
-  50%  {transform: translate(100%,100%)}
-  75%  {transform: translate(   0,100%)}
-  100% {transform: translate(   0,0)}
+@keyframes l1 {
+  0%  {background-size: 20% 100%,20% 100%,20% 100%}
+  33% {background-size: 20% 10% ,20% 100%,20% 100%}
+  50% {background-size: 20% 100%,20% 10% ,20% 100%}
+  66% {background-size: 20% 100%,20% 100%,20% 10% }
+  100%{background-size: 20% 100%,20% 100%,20% 100%}
 }
 
 #loader {
