@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+<!-- Implemented from https://github.com/duvallj/roam-operator-example/tree/main?tab=readme-ov-file -->
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie-edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ReadDF Roam Operator</title>
+    <style>
+      body {
+        margin: 16px;
+      }
+
+      form,
+      div {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        gap: 16px;
+      }
+
+      form {
+        align-items: flex-start;
+      }
+
+      div {
+        border: dashed 2px gray;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ReadDF Roam Operator</h1>
+    <form>
+      <label>API Key: <input id="apikey" type="text" required /></label>
+      <div>
+        <label>Email: <input id="email" type="email" /></label>
+        <label>Name: <input id="name" type="text" /></label>
+        <label>Instructions: <textarea id="instructions"></textarea></label>
+        <button id="send" type="submit">Send Knock</button>
+      </div>
+      <div>
+        <label>Knock ID: <input id="knockid" type="text" /></label>
+        <button id="check" type="submit">Check Knock Result</button>
+      </div>
+      <div>
+        <label>Knock result:</label>
+        <pre id="knockresult">Knock result will go here</pre>
+      </div>
+    </form>
+    <script src="roam-api.js"></script>
+    <script>
+      const ROAM_BASE_URL = new URL("/v0/", document.location.origin);
+
+      const pdf = document.querySelector("pdf")
+      const image = document.querySelector("image")
+      const form = document.querySelector("form");
+      const apiKey = document.querySelector("#apikey");
+      const email = document.querySelector("#email");
+      const botName = document.querySelector("#name");
+      const instructions = document.querySelector("#instructions");
+      const knockId = document.querySelector("#knockid");
+      const knockResult = document.querySelector("#knockresult");
+
+      // Save/restore all values on page refresh, for convenience.
+      [apiKey, email, botName, instructions, knockId].forEach((element) => {
+        element.addEventListener("change", (event) => {
+          localStorage.setItem(element.id, event.target.value);
+        });
+        element.value = localStorage.getItem(element.id);
+      });
+
+      const displayKnock = (knock) => {
+        knockId.value = knock.id;
+        knockResult.innerHTML = knock.output ?? "(no output)";
+
+        // Save the returned value
+        [knockId].forEach((element) => {
+          localStorage.setItem(element.id, element.value);
+        });
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log(event.submitter);
+        switch (event.submitter?.id) {
+          case "send":
+            if (
+              apiKey.value &&
+              email.value &&
+              botName.value &&
+              instructions.value
+            ) {
+              const response = await createKnock(
+                apiKey.value,
+                email.value,
+                botName.value,
+                instructions.value
+              );
+              displayKnock(response);
+            }
+            break;
+          case "check":
+            if (apiKey.value && knockId.value) {
+              const response = await checkKnock(apiKey.value, knockId.value);
+              displayKnock(response);
+            }
+            break;
+        }
+      });
+
+      (async () => {
+        while (true) {
+          // Mimics a websocket by just polling an endpoint that will only return once the knock comes in.
+          const response = await fetch("/next-event");
+          if (!response.ok) throw new Error(`${response.statusText}`);
+          const event = await response.json();
+          console.log("got response", event);
+          // TODO: should be "knock.ready" but the API doesn't send that?
+          if (event.type === "job.done") {
+            displayKnock(await checkKnock(apiKey.value, event.id));
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+	log default {
+		level DEBUG
+		include http.log.access http.handlers.reverse_proxy
+	}
+}
+
+
+http://localhost:2015 {
+	reverse_proxy /v0/* https://api.ro.am {
+		header_up Host "api.ro.am"
+		header_up -Origin
+		header_up -Referer
+		header_up -Sec-*
+	}
+	file_server
+	log default {
+		output stdout
+		format console
+	}
+}
