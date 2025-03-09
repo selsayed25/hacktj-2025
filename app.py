@@ -69,7 +69,9 @@ def convert():
             temp_path = os.path.join(UPLOAD_FOLDER, f"{unique_id}.{file_extension}")
             filename=f"{unique_id}.{file_extension}"
             perma_path=os.path.join("./static/output",f"{unique_id}.{file_extension}")
+            file.seek(0)
             file.save(temp_path)
+            file.seek(0)
             file.save(perma_path)
 
             # Process based on file type
