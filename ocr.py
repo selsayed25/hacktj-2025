@@ -143,7 +143,7 @@ def extract_best_text(processed_versions, language='eng'):
     best_method = ""
     
     # Try different PSM modes
-    psm_modes = [6, 3, 4, 1, 11]
+    psm_modes = [6]
     
     for version_name, img_path in processed_versions:
         for psm in psm_modes:
@@ -171,7 +171,7 @@ def extract_best_text(processed_versions, language='eng'):
                     best_text = text
                     best_confidence = avg_confidence
                     best_method = f"{version_name} with PSM {psm}"
-                    logger.info(f"New best text found with {best_method} (Confidence: {best_confidence:.2f})")
+                    # logger.info(f"New best text found with {best_method} (Confidence: {best_confidence:.2f})")
             
             except Exception as e:
                 logger.error(f"Error extracting text from {img_path} with PSM {psm}: {str(e)}")

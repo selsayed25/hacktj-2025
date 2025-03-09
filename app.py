@@ -7,6 +7,7 @@ import pdf2image
 from PIL import Image
 import logging
 from ocr import *
+import shutil
 
 
 app = Flask(__name__)
@@ -66,8 +67,11 @@ def convert():
             
             # Save uploaded file
             temp_path = os.path.join(UPLOAD_FOLDER, f"{unique_id}.{file_extension}")
+            filename=f"{unique_id}.{file_extension}"
+            perma_path=os.path.join(".",f"{unique_id}.{file_extension}")
             file.save(temp_path)
-            
+            file.save(perma_path)
+
             # Process based on file type
             all_text = []
             processing_details = []
@@ -109,10 +113,11 @@ def convert():
             # Clean up original uploaded file
             if os.path.exists(temp_path):
                 os.remove(temp_path)
-
+            print(extracted_text)
             tts.text_to_speech(extracted_text)
             
-            data = {'transcription': extracted_text, "pdf": file.filename, "audio": "output.mp3"}
+            
+            data = {'transcription': extracted_text, "pdf": filename, "audio": "output.mp3"}
             # {
             # "transcription": "<full text of the transcription>",
             # "pdf": "<filename>.pdf",
@@ -120,7 +125,7 @@ def convert():
             # }
 
             # Provide result to user
-            return render_template('homepage.html', jsonify(data))
+            return render_template('homepage.html', data = jsonify(data))
         
         except Exception as e:
             logger.exception("Error in conversion process")
