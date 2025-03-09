@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
 from werkzeug.utils import secure_filename
+from natural_tts import Natural_TTS
 import os
 import uuid
 import pdf2image
@@ -7,20 +8,23 @@ from PIL import Image
 import logging
 from ocr import *
 
+
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "./templates/uploads"
 
+tts = Natural_TTS()
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+# def allowed_file(filename):
+    # return '.' in filename and \
+        #    filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/file', methods=['POST'])
+# @app.route('/file', methods=['POST'])
 def upload_file():
     if 'file' in request.files:
         file = request.files['file']
@@ -29,11 +33,11 @@ def upload_file():
             # Here you should save the file
             # file.save(path_to_save_file)
             convert()
-            return 'File uploaded successfully'
+            # return 'File uploaded successfully'
 
     return 'File upload failed'
 
-@app.route('/convert', methods=['POST'])
+@app.route('/file', methods=['POST'])
 def convert():
     if 'file' not in request.files:
         return render_template('index.html', error='No file selected')
@@ -92,16 +96,23 @@ def convert():
             
             # Combine all extracted text
             extracted_text = "\n".join(all_text)
-            processing_info = "\n".join(processing_details)
+            # processing_info = "\n".join(processing_details)
             
             # Clean up original uploaded file
             if os.path.exists(temp_path):
                 os.remove(temp_path)
+
+            tts.text_to_speech(extracted_text)
             
+            data = {'transcription': extracted_text, "pdf": file.filename, "audio": "output.mp3"}
+            # {
+            # "transcription": "<full text of the transcription>",
+            # "pdf": "<filename>.pdf",
+            # "audio": "<filename>.mp3"
+            # }
+
             # Provide result to user
-            return render_template('result.html',
-                                  text=extracted_text,
-                                  processing_info=processing_info)
+            return render_template('homepage.html', jsonify(data))
         
         except Exception as e:
             logger.exception("Error in conversion process")

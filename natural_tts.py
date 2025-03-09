@@ -26,7 +26,7 @@ class Natural_TTS:
     def concat_audio(self, n):
         clips = [AudioFileClip(f"{i}.mp3") for i in range(n)]
         final_clip = concatenate_audioclips(clips)
-        final_clip.write_audiofile("audio.mp3")
+        final_clip.write_audiofile("output.mp3")
 
 
     def text_to_speech(self, text, vspeed=1):
