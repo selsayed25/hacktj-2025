@@ -1,4 +1,10 @@
-from flask import Flask, render_template, request, send_file, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect
+from werkzeug.utils import secure_filename
+import os
+import uuid
+import pdf2image
+from PIL import Image
+import logging
 from ocr import *
 
 app = Flask(__name__)
@@ -68,14 +74,6 @@ def convert():
             extracted_text = "\n".join(all_text)
             processing_info = "\n".join(processing_details)
             
-            # Generate audio if text was extracted
-            audio_url = None
-            if extracted_text.strip():
-                audio_path = os.path.join(AUDIO_FOLDER, f"{unique_id}.mp3")
-                tts = gTTS(text=extracted_text, lang='en', slow=False)
-                tts.save(audio_path)
-                audio_url = url_for('get_audio_file', filename=f"{unique_id}.mp3")
-            
             # Clean up original uploaded file
             if os.path.exists(temp_path):
                 os.remove(temp_path)
@@ -83,19 +81,13 @@ def convert():
             # Provide result to user
             return render_template('result.html',
                                   text=extracted_text,
-                                  processing_info=processing_info,
-                                  audio_file=audio_url,
-                                  has_audio=bool(audio_url))
+                                  processing_info=processing_info)
         
         except Exception as e:
             logger.exception("Error in conversion process")
             return render_template('index.html', error=f"Error during processing: {str(e)}")
     
     return render_template('index.html', error='Invalid file type')
-
-@app.route('/audio/<filename>')
-def get_audio_file(filename):
-    return send_file(os.path.join(AUDIO_FOLDER, filename), mimetype='audio/mpeg')
 
 @app.route('/cleanup', methods=['POST'])
 def cleanup():
@@ -106,7 +98,7 @@ def cleanup():
             if os.path.isfile(file_path):
                 os.remove(file_path)
         
-        # Only log the cleanup action (don't remove uploads and audio as they might be in use)
+        # Only log the cleanup action (don't remove uploads as they might be in use)
         logger.info("Cleaned up processed files")
     except Exception as e:
         logger.error(f"Error during cleanup: {str(e)}")
