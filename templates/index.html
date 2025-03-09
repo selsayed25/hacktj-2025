@@ -65,13 +65,22 @@
       
       <div class="inputlayout">
         <div class="containerfiles">
-          <img src="/static/img/upload.svg" alt="Upload" id="upload" class="uploadicon"/>
-          <div class="filebox">
+<!-- <<<<<<< Nathan
+          <img src="/static/img/upload.svg" id="uploadimage" alt="Upload" id="upload" class="uploadicon"/>
+          <div class="filebox" id="filebox">
+            <form action="file" method="POST">
+              <input type="file" name="uploadedfile" onchange="form.submit(); loader()" id="actual-btn" accept=".pdf, .jpeg, .png" hidden />
+              <label for="actual-btn" id="filebutton">Choose File</label>
+======= -->
+          <img src="/static/img/upload.svg" id="uploadimage" alt="Upload" id="upload" class="uploadicon"/>
+          <div class="filebox" id="filebox">
             <form action="file" method="POST" enctype = "multipart/form-data">
-              <input type="file" name="file" onchange="form.submit()" id="actual-btn" accept=".pdf, .jpeg, .png" hidden />
-              <label for="actual-btn">Choose File</label>
+              <input type="file" name="file" onchange="form.submit(); loader()" id="actual-btn" accept=".pdf, .jpeg, .png" hidden />
+              <label for="actual-btn" id="filebutton">Choose File</label>
+<!-- >>>>>>> master -->
             </form>
           </div>
+          <div class="loader" id="loader"></div>
         </div>
       </div>
       
@@ -101,6 +110,17 @@
         </div>
       </div>
     </div>
+
+    <script>
+
+      function loader() {
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("filebox").style.display = "none";
+        document.getElementById("uploadimage").style.display = "none";
+      }
+
+    </script>
+
   </main>
 </body>
 </html>

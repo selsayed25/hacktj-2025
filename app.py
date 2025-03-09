@@ -24,18 +24,26 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
 def index():
     return render_template('index.html')
 
-# @app.route('/file', methods=['POST'])
-def upload_file():
-    if 'file' in request.files:
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            # Here you should save the file
-            # file.save(path_to_save_file)
-            convert()
-            # return 'File uploaded successfully'
+# <<<<<<< Nathan
+# @app.route('/file' , methods=['POST'])
+# def getfile():
+#     uploadedfile = request.form.get('uploadedfile')
+#     return uploadedfile
 
-    return 'File upload failed'
+# @app.route('/convert', methods=['POST'])
+# =======
+# @app.route('/file', methods=['POST'])
+# def upload_file():
+#     if 'file' in request.files:
+#         file = request.files['file']
+#         if file and allowed_file(file.filename):
+#             filename = secure_filename(file.filename)
+#             # Here you should save the file
+#             # file.save(path_to_save_file)
+#             convert()
+#             # return 'File uploaded successfully'
+
+#     return 'File upload failed'
 
 @app.route('/file', methods=['POST'])
 def convert():
