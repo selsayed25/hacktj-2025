@@ -4,7 +4,7 @@ import soundfile as sf
 # 🇺🇸 'a' => American English, 🇬🇧 'b' => British English
 # 🇯🇵 'j' => Japanese: pip install misaki[ja]
 # 🇨🇳 'z' => Mandarin Chinese: pip install misaki[zh]
-pipeline = KPipeline(lang_code='a') # <= make sure lang_code matches voice
+pipeline = KPipeline(lang_code='a', device='cuda', repo_id='hexgrad/Kokoro-82M') # <= make sure lang_code matches voice
 
 # This text is for demonstration purposes only, unseen during training
 text = "“Being in a minority, even in a minority of one, did not make you mad. There was truth and there was untruth, and if you clung to the truth even against the whole world, you were not mad.” ― George Orwell, 1984"
@@ -18,7 +18,7 @@ text = "“Being in a minority, even in a minority of one, did not make you mad.
 
 # 4️⃣ Generate, display, and save audio files in a loop.
 generator = pipeline(
-    text, voice='af_heart', # <= change voice here
+    text, voice='am_liam   ', # <= change voice here
     speed=1, split_pattern=r'\n+'
 )
 for i, (gs, ps, audio) in enumerate(generator):
