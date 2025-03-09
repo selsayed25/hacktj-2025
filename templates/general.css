@@ -278,6 +278,20 @@ main p{
   h2, p { margin: 1em }
 }
 
+.containerfiles{
+  border: 2px solid var(--line-clr);
+  border-radius: 1em;
+  height: 100%;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h2, p { margin: 1em }
+}
+
 .scrollbarbox {
   flex-grow: 1;
   display: flex;
@@ -299,6 +313,25 @@ main p{
 .lilicon {
   height: 75%;
   cursor: pointer;
+}
+
+.uploadicon {
+  height: 8vh;
+  margin-bottom: 10px;
+}
+
+label {
+  background-color: #414141;
+  color: #fafaff;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+label:hover {
+  background-color: #124d4d;
+  transition: 0.3s;
 }
 
 #progress{
